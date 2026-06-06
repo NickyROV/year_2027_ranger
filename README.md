@@ -1,7 +1,5 @@
-# year_2027
-## Ranger Class
-
-6DOF ROV with 2 robot arms, each arms with 4 servos, autonomous curising capable
+# year_2027 Ranger Class
+## 6DOF ROV with 2 robot arms, each arms with 4 servos, autonomous curising capable
 
 1. Hardward and sensors
 * RDK X5 with 10Tops BPU
