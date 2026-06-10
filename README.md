@@ -25,4 +25,12 @@
 * Top-side computer for live feed video with flight data embedded visual display
 * Radio Controller send command throu 16 channel SBUS
 * RDK X5 station underwater compactment, close to sensor
-* Top-side computer and underwater compartment are connected by tether 
+* Top-side computer and underwater compartment are connected by tether
+
+5. Implementation Roadmap
+* Phase 1 (Hardware Verification): Connect RDK X5 and PCA9685, write basic scripts, activate the servos and T200 thrusters one by one, and verify I2C communication stability.
+** Burn the RDK X5 system image and confirm network and SSH connections.
+** Scan I2C devices and confirm that the addresses of PCA9685 (0x40), MPU6050 (0x68), and MS5837 (0x76) are recognizable.
+** Write a basic Python script: the PCA9685 outputs a 50Hz square wave to sequentially light up/rotate one servo motor and one T200 thruster ESC.
+** Verify DYP-L08 UART data reception (water depth/temperature).
+** Output: Able to manually control a single actuator via command line; sensor data can be printed.
