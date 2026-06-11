@@ -2,10 +2,12 @@
 ## 6DOF ROV with 2 robot arms, each arms with 4 servos, autonomous curising capable
 
 1. Hardward and sensors
-* RDK X5 with 10Tops BPU
-* 6-axis IMU MPU6050 in I2C interface (address 0x68)
-* Water pressure sensors MS5837 in I2C interface (address 0x76)
-* PCA9685 16 channels PWM in I2C interface (address 0x40 with all jumpers unsoldered) 
+* RDK X5 with 10Tops BPU (3V3 logic level)
+* I2C total 4K7 pull-up both SCL & SDA; maximum distance in between 15cm
+* 9-axis IMU ICM-20948 V2 in 3V3 I2C interface (address 0x69)
+* Water pressure sensors MS5837 in 3V3 I2C interface (address 0x76)
+* PCA9685 16 channels PWM 5V in I2C interface (address 0x40) with 470uF across VCC and GND
+* Level shifter TXS0108E for PCA9685 shifting
 * Depth sensors DYP-L08 in UART interface 
 
 2. PWM Thruster, LED Lamp and robot arms
