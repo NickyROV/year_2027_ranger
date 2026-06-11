@@ -34,3 +34,34 @@
 ** Write a basic Python script: the PCA9685 outputs a 50Hz square wave to sequentially light up/rotate one servo motor and one T200 thruster ESC.
 ** Verify DYP-L08 UART data reception (water depth/temperature).
 ** Output: Able to manually control a single actuator via command line; sensor data can be printed.
+
+* Phase 2 (Watertightness and Power): Complete the pressure hull design, test the T200's forward and reverse thrust response in water, and verify the MPU6050 attitude readout.
+** Complete the structural design and assembly of the pressure tank (watertight joints, cable penetration).
+** Establish a ROS 2 workspace (TROS.b environment) and write the following nodes:
+** imu_node: Publish the MPU6050's roll/pitch/yaw
+** depth_node: Publish the MS5837 depth
+** Implement a single-degree-of-freedom PID controller (e.g., constant depth control), maintaining the target depth ±5cm by adjusting the vertical thruster PWM.
+** Output: The ROV can achieve "constant depth hovering" in still water, no longer relying on continuous manual correction at the water surface.
+
+* Phase 3 (Semi-Autonomous Cruise): Deploy TROS.b (TogetherROS) on RDK X5, and write nodes to implement "depth-hold mode" and "self-stabilizing mode".
+** Establish thrust distribution matrix (Mecanum-type 6-thruster → horizontal, vertical, roll, pitch, yaw)
+** Subscribe to /cmd_vel and convert to 6-channel PWM output
+** Connect to SBUS remote controller (16 channels), map joystick values ​​to /cmd_vel, while retaining ROS command-line control
+** Add auto_heading node: use magnetometer (or IMU integrator) to correct yaw drift
+** Output: ROV can be controlled forward/backward/left/right/heave/turn by remote controller; automatically returns to stability when joystick is released.
+
+* Phase 4 (AI Vision): Collect underwater image datasets, deploy a lightweight YOLO model on RDK X5, and write target following logic.
+**Collect and label underwater datasets (fish, sea cucumbers, corals, etc.).
+** Deploy YOLOv8 (or a lightweight version) using the DNN node in TROS.b to obtain object detection boxes.
+** Write a visual_servo node to convert the object offset (px error) within the image box into a /cmd_vel horizontal correction command.
+** Combined with IMU depth information, implement 3D following (target remains centered in the field of view + constant depth following).
+**Output: The ROV can autonomously follow specified marine life within its field of view, maintaining a fixed distance and depth.
+
+* Phase 5 (Integration): Write surface-end Qt/Python programs to integrate video streams and the instrument panel.
+**The surface computer runs Qt/PyQt programs:
+** Video Streaming: Receives underwater camera footage via GStreamer (H.264) and overlays OSD (depth, attitude, bounding box).
+** Remote Controller Pass-through: Sends /cmd_vel from the surface to the underwater RDK X5.
+** DVL-less Visual Ranging: Estimates short-term displacement using IMU + visual feature point method (viso2_ros).
+** Simple Bathymetry: Combines displacement estimation with MS5837 depth data to generate a raster bathymetry map (saved as a CSV/PNG heatmap).
+** Output: The surface screen displays "flight data + AI recognition + real-time video," and the ROV can collect underwater topographic data along the planned route.
+
