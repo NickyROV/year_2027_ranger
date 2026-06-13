@@ -11,10 +11,11 @@
 * Depth sensors DYP-L08 in UART interface 
 
 2. PWM Thruster, LED Lamp and robot arms
-* 6 x 3-phase T200 Blue Robotic thruster orientiate in Mecanum wheel arrangement 
-* 6 x 3-phase ESC with PWM input 
+* 8 x 3-phase T200 Blue Robotic thruster orientiate in Mecanum wheel arrangement 
+* 8 x 3-phase ESC with PWM input
+* Moore-Penrose Pseudoinverse will be adopted as 6X8 Matrix (6DOF commands into 8 thrusters) is overactuated to reduce cross-coupling and enhance energy efficiency. 
 * LED Lamp X 1 with PWM input
-*  2 x 4-servos robot arm
+* 2 x 4-servos robot arm
 * Thruster 6 x ESCs, LED lamp X 1 and Robot Arm 8 x servos are controlled by PCA9685 (address 0x40)
 
 3. Computer vision
