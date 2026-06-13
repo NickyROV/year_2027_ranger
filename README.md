@@ -6,7 +6,7 @@
 * I2C total 4K7 pull-up both SCL & SDA; maximum distance in between 15cm
 * 9-axis IMU ICM-20948 V2 in 3V3 I2C interface (address 0x69)
 * Water pressure sensors MS5837 in 3V3 I2C interface (address 0x76)
-* PCA9685 16 channels PWM 5V in I2C interface (address 0x40) with 470uF across VCC and GND
+* PCA9685 16 channels PWM 5V in I2C interface (address 0x40) with 470uF across VCC and GND to reduce Electromagnetic Interference (EMI)
 * Level shifter TXS0108E for PCA9685 shifting
 * Depth sensors DYP-L08 in UART interface 
 
