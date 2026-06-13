@@ -14,9 +14,9 @@
 * 8 x 3-phase T200 Blue Robotic thruster orientiate in Mecanum wheel arrangement 
 * 8 x 3-phase ESC with PWM input
 * Moore-Penrose Pseudoinverse will be adopted as 6X8 Matrix (6DOF commands into 8 thrusters) is overactuated to reduce cross-coupling and enhance energy efficiency. 
-* LED Lamp X 1 with PWM input
 * 2 x 4-servos robot arm
-* Thruster 6 x ESCs, LED lamp X 1 and Robot Arm 8 x servos are controlled by PCA9685 (address 0x40)
+* Thruster 8 x ESCs and Robot Arm 8 x servos are controlled by PCA9685 (address 0x40)
+* LED Lamp using 20KHz PWM signal output from RDK GPIO pin
 
 3. Computer vision
 * To recognize various sea creature and coral reef
@@ -33,24 +33,24 @@
 5. Implementation Roadmap
 * Phase 1 (Hardware Verification): Connect RDK X5 and PCA9685, write basic scripts, activate the servos and T200 thrusters one by one, and verify I2C communication stability.
 ** Burn the RDK X5 system image and confirm network and SSH connections.
-** Scan I2C devices and confirm that the addresses of PCA9685 (0x40), MPU6050 (0x68), and MS5837 (0x76) are recognizable.
+** Scan I2C devices and confirm that the addresses of PCA9685 (0x40), ICM-20948 (0x69), and MS5837 (0x76) are recognizable.
 ** Write a basic Python script: the PCA9685 outputs a 50Hz square wave to sequentially light up/rotate one servo motor and one T200 thruster ESC.
 ** Verify DYP-L08 UART data reception (water depth/temperature).
 ** Output: Able to manually control a single actuator via command line; sensor data can be printed.
 
-* Phase 2 (Watertightness and Power): Complete the pressure hull design, test the T200's forward and reverse thrust response in water, and verify the MPU6050 attitude readout.
+* Phase 2 (Watertightness and Power): Complete the pressure hull design, test the T200's forward and reverse thrust response in water, and verify the ICM-20948 attitude readout.
 ** Complete the structural design and assembly of the pressure tank (watertight joints, cable penetration).
 ** Establish a ROS 2 workspace (TROS.b environment) and write the following nodes:
-** imu_node: Publish the MPU6050's roll/pitch/yaw
+** imu_node: Publish the ICM-20948's roll/pitch/yaw (including magnetometer yaw)
 ** depth_node: Publish the MS5837 depth
 ** Implement a single-degree-of-freedom PID controller (e.g., constant depth control), maintaining the target depth ±5cm by adjusting the vertical thruster PWM.
 ** Output: The ROV can achieve "constant depth hovering" in still water, no longer relying on continuous manual correction at the water surface.
 
 * Phase 3 (Semi-Autonomous Cruise): Deploy TROS.b (TogetherROS) on RDK X5, and write nodes to implement "depth-hold mode" and "self-stabilizing mode".
-** Establish thrust distribution matrix (Mecanum-type 6-thruster → horizontal, vertical, roll, pitch, yaw)
-** Subscribe to /cmd_vel and convert to 6-channel PWM output
+** Establish thrust distribution matrix (Mecanum-type 8-thruster layout: 1-4 for Surge/Sway/Yaw, 5-8 for Heave/Pitch/Roll)
+** Subscribe to /cmd_vel and convert to 8-channel PWM output (using Moore-Penrose Pseudoinverse)
 ** Connect to SBUS remote controller (16 channels), map joystick values ​​to /cmd_vel, while retaining ROS command-line control
-** Add auto_heading node: use magnetometer (or IMU integrator) to correct yaw drift
+** Add auto_heading node: use the integrated magnetometer from ICM-20948 to correct yaw drift
 ** Output: ROV can be controlled forward/backward/left/right/heave/turn by remote controller; automatically returns to stability when joystick is released.
 
 * Phase 4 (AI Vision): Collect underwater image datasets, deploy a lightweight YOLO model on RDK X5, and write target following logic.
