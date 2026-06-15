@@ -48,7 +48,9 @@
   
 * Phase 3 (Semi-Autonomous Cruise): Deploy TROS.b (TogetherROS) on RDK X5, and write nodes to implement "depth-hold mode" and "self-stabilizing mode".</br>
 ** Establish thrust distribution matrix (Mecanum-type 8-thruster layout: 1-4 for Surge/Sway/Yaw, 5-8 for Heave/Pitch/Roll)</br>
-** Decompose 8 DoFs matrix into 2 independent 4 DoFs matrixes, Pseudoinverse underdetermined martix [3x4] into [μ1, μ2, μ3, μ4] actuators output.</br>
+** Decompose 8 DoFs matrix into 2 independent 4 DoFs matrixes, Pseudoinverse underdetermined martix [3x4].</br>
+** [τ<sub>surge</sub>,τ<sub>sway</sub>,τ<sub>yaw</sub>] Pesudoinverse [A <sub>horizontial</sub> 3X4] into [μ<sub>1</sub>,μ<sub>2</sub>,μ<sub>3</sub>,μ<sub>4</sub>] actuators output.</br>
+** [τ<sub>heavr</sub>,τ<sub>pitch</sub>,τ<sub>roll</sub>] Pesudoinverse [A <sub>vertical</sub> 3X4] into [μ<sub>5</sub>,μ<sub>6</sub>,μ<sub>7</sub>,μ<sub>8</sub>] actuators output.</br>
 ** Subscribe to /cmd_vel and convert to 8-channel PWM output (using Moore-Penrose Pseudoinverse)</br>
 ** Connect to SBUS remote controller (16 channels), map joystick values ​​to /cmd_vel, while retaining ROS command-line control</br>
 ** Add auto_heading node: use the integrated magnetometer from ICM-20948 to correct yaw drift</br>
