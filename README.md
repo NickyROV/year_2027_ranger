@@ -8,7 +8,9 @@
 * Water pressure sensors MS5837 in 3V3 I2C interface (address 0x76)
 * PCA9685 16 channels PWM 5V in I2C interface (address 0x40) with 470uF across VCC and GND to reduce Electromagnetic Interference (EMI)
 * Level shifter TXS0108E for PCA9685 shifting
-* Depth sensors DYP-L08 in UART interface 
+* Depth sensors DYP-L08 in UART interface
+* MIPI DSI 4.3-inch Display
+* MIPI CSI Camera (77-view angle) with Sony MX219 chip with 8.08-megaPixel (3280x2464 active Pixel) -> mipi_host0 (i2c6)
 
 2. PWM Thruster, LED Lamp and robot arms
 * 8 x 3-phase T200 Blue Robotic thruster orientiate in Mecanum wheel arrangement 
