@@ -1,9 +1,9 @@
 # year_2027 Ranger Class
-## 6DOF ROV with 2 robot arms, each arms with 4 servos, autonomous curising capable
+## 6DOF ROV with 2 X 4 servos robot arms, autonomous curising capable
 
 1. Hardward and sensors
-* Dry-side SoC : Raspberry pi 5
-* Wet-side CPU+GPU+BPU : RDK X5 with 10Tops BPU (3V3 logic level)
+* Dry-side ranger_ws SoC : Raspberry pi 5
+* Wet-side wtc_ws CPU+GPU+BPU : RDK X5 with 10Tops BPU (3V3 logic level)
 * I2C total 4K7 pull-up both SCL & SDA; maximum distance in between 15cm
 * 9-axis IMU ICM-20948 V2 in 3V3 I2C interface (address 0x69)
 * Water pressure sensors MS5837 in 3V3 I2C interface (address 0x76)
