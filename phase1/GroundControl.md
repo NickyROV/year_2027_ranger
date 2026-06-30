@@ -20,11 +20,11 @@ ranger_ws with /teleop node to read UART and publish topic
 - run the node $ros2 run teleop teleop_node
 - topic  verification $ros2 run topic list
 
-topic /cmd_rov form ADC0 to ADC5  with total 6 analog channels  
-topic /led_brighess from ADC6 with total 1 analog channels  
-topic /cmd_arm from ADC7-ADC15 with total 8 analog channels  
-topic /depth_hold from D22 with total 1 digital channels  
-topic /ai_instruct from D23 to D25 with total 3 digital channels
+topic /cmd_rov form ADC0 to ADC5  with total 6 analog channels (ros2 topic echo /cmd_rov)  
+topic /led_brightess from ADC6 with total 1 analog channels (ros2 topic echo /cmd_led_brightness)  
+topic /cmd_arm from ADC7-ADC15 with total 8 analog channels (ros2 topic echo /cmd_arm)  
+topic /depth_hold from D22 with total 1 digital channels(ros2 topic echo /depth_hold)  
+topic /ai_instruct from D23 to D25 with total 3 digital channels (ros2 topic echo /ai_instruct)
 
 **3. Data visualization with Foxglove Studio**
 $ros2 run 
