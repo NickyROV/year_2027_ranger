@@ -1,5 +1,8 @@
 # Ground Control Station Architect
 ## Hardware : Ubuntu Jammy with ROS2 Humble + Arduino Mega 2560
+ 
+| Hardware(Arduino) │───▶|  node /teleop  │───▶│ topic /cmd_rov │───▶│ wtc Controller nodes │
+
 **1. Arduino Mega 2560**
 
 Deploy Arduino Mega to read ADC and Digital teleoperating command, wrap up all information in serial format and pass to GroundControl through /dev/ttyUSB0;
@@ -36,4 +39,7 @@ As ubuntu assign USB device dynamically, chances are Arduino Mega got different 
 - Step 6 : call parameter *teleop_params.yaml* explicitly by ros2 run teleop teleop_node --ros-args --params-file ~/ranger_ws/src/teleop/config/teleop_params.yaml
   
 **3. Data visualization with Foxglove Studio**
-$ros2 run 
+- Installation $sudo apt install foxglove-studio
+- apply foxglove-bridge $ros2 launch foxglove_bridge foxglove_bridge_launch.xml
+- Open Foxglove WebSocket connection ws://localhost:8765 for foxglove_bridge
+- 
