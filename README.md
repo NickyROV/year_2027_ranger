@@ -2,7 +2,7 @@
 ## 6DOF ROV with 2 X 4 servos robot arms, autonomous curising capable
 
 1. Hardward and sensors
-* Dry-side ranger_ws SoC : Raspberry pi 5
+* Top-side GroundControl ranger_ws SoC : Raspberry pi 5 + Arduino mega 2560
 * Wet-side wtc_ws CPU+GPU+BPU : RDK X5 with 10Tops BPU (3V3 logic level)
 * I2C total 4K7 pull-up both SCL & SDA; maximum distance in between 15cm
 * 9-axis IMU ICM-20948 V2 in 3V3 I2C interface (address 0x69)
@@ -34,14 +34,20 @@
 * Top-side computer and underwater compartment are connected by tether
 
 5. Implementation Roadmap
-* Phase 1 (Hardware Verification): Connect RDK X5 and PCA9685, write basic scripts, activate the servos and T200 thrusters one by one, and verify I2C communication stability.</br>
+* Phase 1 (Ground Control framework)
+** Analog ADC : 6 channel Teleop_rov, 8 channels robot arm and 1 channel of LED Brightness -> Arduino Mega
+** Digital : Depth Hold, AI Instruction -> Arduino Mega
+** Arduino Mega -> Pi 5 via Serial Port
+** Pi 5 publish corresponding Topics
+   
+* Phase 2 (Hardware Verification): Connect RDK X5 and PCA9685, write basic scripts, activate the servos and T200 thrusters one by one, and verify I2C communication stability.</br>
 ** Burn the RDK X5 system image and confirm network and SSH connections.</br>
 ** Address confirmation of I2C devices with proper level shifter; PCA9685 (0x40), ICM-20948 (0x69), and MS5837 (0x76).</br>
 ** Write a basic Python script-> prepare PCA9685 outputs 50Hz square wave to control all 8 T200 thruster through ESC.</br>
 ** Verify DYP-L08 UART data reception (water depth/temperature).</br>
 ** Output: Able to manually control a single actuator via command line; sensor data can be printed.</br>
 
-* Phase 2 (Watertightness and Power): Complete the pressure hull design, test 8 X T200's thruster performance, verify the ICM-20948 attitude readout.</br>
+* Phase 3 (Watertightness and Power): Complete the pressure hull design, test 8 X T200's thruster performance, verify the ICM-20948 attitude readout.</br>
 ** Complete the structural design and assembly of the pressure tank (watertight joints, cable penetration).</br>
 ** Establish a ROS 2 workspace (TROS.b environment) and write the following nodes:</br>
 ** imu_node: Publish the ICM-20948's roll/pitch/yaw (including magnetometer yaw)</br>
@@ -49,7 +55,7 @@
 ** Implement a single-degree-of-freedom PID controller (e.g., constant depth control), maintaining the target depth ±5cm by adjusting the vertical thruster PWM.</br>
 ** Output: The ROV can achieve "constant depth hovering" in still water, no longer relying on continuous manual correction at the water surface.</br>
   
-* Phase 3 (Semi-Autonomous Cruise): Deploy TROS.b (TogetherROS) on RDK X5, and write nodes to implement "depth-hold mode" and "self-stabilizing mode".</br>
+* Phase 4 (Semi-Autonomous Cruise): Deploy TROS.b (TogetherROS) on RDK X5, and write nodes to implement "depth-hold mode" and "self-stabilizing mode".</br>
 ** Establish thrust distribution matrix (Mecanum-type 8-thruster layout: 1-4 for Surge/Sway/Yaw, 5-8 for Heave/Pitch/Roll)</br>
 ** Decompose 8 DoFs matrix into 2 independent 4 DoFs matrixes, Pseudoinverse underdetermined martix [3x4].</br>
 ** [τ<sub>surge</sub>,τ<sub>sway</sub>,τ<sub>yaw</sub>] Pesudoinverse [A <sub>horizontial</sub> 3X4] into [μ<sub>1</sub>,μ<sub>2</sub>,μ<sub>3</sub>,μ<sub>4</sub>] actuators output.</br>
@@ -59,14 +65,14 @@
 ** Add auto_heading node: use the integrated magnetometer from ICM-20948 to correct yaw drift</br>
 ** Output: ROV can be controlled forward/backward/left/right/heave/turn by remote controller; automatically returns to stability when joystick is released.</br>
 
-* Phase 4 (AI Vision): Collect underwater image datasets, deploy a lightweight YOLO model on RDK X5, and write target following logic.</br>
+* Phase 5 (AI Vision): Collect underwater image datasets, deploy a lightweight YOLO model on RDK X5, and write target following logic.</br>
 **Collect and label underwater datasets (fish, sea cucumbers, corals, etc.).</br>
 ** Deploy YOLOv8 (or a lightweight version) using the DNN node in TROS.b to obtain object detection boxes.</br>
 ** Write a visual_servo node to convert the object offset (px error) within the image box into a /cmd_vel horizontal correction command.</br>
 ** Combined with IMU depth information, implement 3D following (target remains centered in the field of view + constant depth following).</br>
 **Output: The ROV can autonomously follow specified marine life within its field of view, maintaining a fixed distance and depth.</br>
 
-* Phase 5 (Integration): Write surface-end Qt/Python programs to integrate video streams and the instrument panel.
+* Phase 6 (Integration): Write surface-end Qt/Python programs to integrate video streams and the instrument panel.
 **The surface computer runs Qt/PyQt programs:</br>
 ** Video Streaming: Receives underwater camera footage via GStreamer (H.264) and overlays OSD (depth, attitude, bounding box).</br>
 ** Remote Controller Pass-through: Sends /cmd_vel from the surface to the underwater RDK X5.</br>
