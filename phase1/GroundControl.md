@@ -13,11 +13,12 @@ Deploy Arduino Mega to read ADC and Digital teleoperating command, wrap up all i
 **2. GroundControl unit - Ubuntu Jammy with ROS2 Humble**
 
 ranger_ws with /teleop node to read UART and publish topic
-- Create ranger_ws ROS2 workspace /ranger_ws$ros2 pkg create teleop 
+- Create ranger_ws ROS2 workspace ~/ranger_ws
+- Create teleop ROS2 Package ~$ros2 pkg create teleop 
 - Update ~/ranger_ws/src/teleop/*package.xml*
 - Update ~/ranger_ws/src/teleop/*setup.py*
 - Create ROS2 python teleop_node  ~/ranger_ws/src/teleop/teleop/*teleop_node.py*
-- Create ~/ranger_ws/src/teleop/config/*teleop_params.yaml*
+- Create ROS2 parameters file ~/ranger_ws/src/teleop/config/*teleop_params.yaml*
 - build the package ~/ranger_ws/colon build --packages-select teleop
 - source the environment $source ~/ranger_ws/install/setup.bash
 - run the node $ros2 run teleop teleop_node
@@ -30,7 +31,7 @@ topic /depth_hold from D22 with total 1 digital channels(ros2 topic echo /depth_
 topic /ai_instruct from D23 to D25 with total 3 digital channels (ros2 topic echo /ai_instruct)
 
 **2. Optional upgrade regarding dynamic /dev/ttyUSB0 assignment**
-As ubuntu assign USB device dynamically, chances are Arduino Mega got different /dev/ttyUSB0, as required by teleop_node.py, user can't force a specific ttyUSB number directly using udev rules on modern Ubuntu, because the kernel's naming system assigns these numbers dynamically . However, the standard solution is to create a stable, persistent symlink (like /dev/arduino) that always points to your Arduino, no matter what ttyUSB number it gets.
+As ubuntu assign USB device dynamically, chances are Arduino Mega got different port assignment than /dev/ttyUSB0, as required by teleop_node.py, user can't force a specific ttyUSB number directly using udev rules on modern Ubuntu, because the kernel's naming system assigns these numbers dynamically . However, the standard solution is to create a stable, persistent symlink (like /dev/arduino) that always points to your Arduino, no matter what ttyUSB number it gets.
 - Step 1 : Identify Arduino's Unique Hardware Information {idVendor} & {idProduct} with lsusb
 - Step 2 : Create udev Rule in /etc/udev/rules.d/99-usb-serial.rules by adding "
 - Step 3 : Rule application by sudo udevadm control --reload-rules & sudo udevadm trigger
