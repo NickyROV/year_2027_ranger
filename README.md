@@ -43,17 +43,18 @@
 * Phase 2 (Hardware Verification): Connect RDK X5 and PCA9685, write basic scripts, activate the servos and T200 thrusters one by one, and verify I2C communication stability.</br>
 ** Burn the RDK X5 system image and confirm network and SSH connections.</br>
 ** Address confirmation of I2C devices with proper level shifter; PCA9685 (0x40), ICM-20948 (0x69), and MS5837 (0x76).</br>
-** Write a basic Python script-> prepare PCA9685 outputs 50Hz square wave to control all 8 T200 thruster through ESC.</br>
+** Python executable -> prepare 50Hz PWM output to PCA9685 to control all 8 T200 thruster Electronic Speed Controllers.</br>
 ** Verify DYP-L08 UART data reception (water depth/temperature).</br>
 ** Output: Able to manually control a single actuator via command line; sensor data can be printed.</br>
 
-* Phase 3 (Watertightness and Power): Complete the pressure hull design, test 8 X T200's thruster performance, verify the ICM-20948 attitude readout.</br>
-** Complete the structural design and assembly of the pressure tank (watertight joints, cable penetration).</br>
+* Phase 3 (Watertightness and Power): Water tight compactment design, test 8 X T200's thruster performance, verify the ICM-20948 attitude readout.</br>
+** Structural design and assembly of the pressure tank (watertight joints, cable penetration).</br>
 ** Establish a ROS 2 workspace (TROS.b environment) and write the following nodes:</br>
-** imu_node: Publish the ICM-20948's roll/pitch/yaw (including magnetometer yaw)</br>
-** depth_node: Publish the MS5837 depth</br>
+** /sense_icm20948 : publish /icm20948 topic, 9-axis IMU</br>
+** /sense_ms5837 : publish /ms5837 topic, depth by converting the pressure</br>
+** /sense_dypl08 : publish /dypl08 topic, Ultra-sound distance</br>
 ** Implement a single-degree-of-freedom PID controller (e.g., constant depth control), maintaining the target depth ±5cm by adjusting the vertical thruster PWM.</br>
-** Output: The ROV can achieve "constant depth hovering" in still water, no longer relying on continuous manual correction at the water surface.</br>
+** Output: The ROV can achieve "constant depth hovering" in stream water, NO depth manual-correct is needed.</br>
   
 * Phase 4 (Semi-Autonomous Cruise): Deploy TROS.b (TogetherROS) on RDK X5, and write nodes to implement "depth-hold mode" and "self-stabilizing mode".</br>
 ** Establish thrust distribution matrix (Mecanum-type 8-thruster layout: 1-4 for Surge/Sway/Yaw, 5-8 for Heave/Pitch/Roll)</br>
