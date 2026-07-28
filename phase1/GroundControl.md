@@ -1,18 +1,18 @@
-# Ground Control Station Architect
+# Ground Control Station
 ## Hardware : Ubuntu Jammy with ROS2 Humble + Arduino Mega 2560
  
 | Hardware(Arduino) │───▶|  node /teleop  │───▶│ topic /cmd_rov │───▶│ wtc Controller nodes │
 
 **1. Arduino Mega 2560**
 
-Deploy Arduino Mega to read ADC and Digital teleoperating command, wrap up all information in serial format and pass to GroundControl through /dev/ttyUSB0;
+Deploy Arduino Mega to read ADC and Digital teleoperating command, wrap up all information in serial format and pass to Ground Control Station Companion Computer through /dev/ttyUSB0;
 - 16 ADC from ADC0 to ADC15
 - 8 Digital from D22 to D29
 - Arduino code reference *teleop.ino*
   
 **2. GroundControl unit - Ubuntu Jammy with ROS2 Humble**
 
-ranger_ws with /teleop node to read UART and publish topic
+ranger_ws with /teleop_node to read UART and publish topic
 - Create ranger_ws ROS2 workspace ~/ranger_ws
 - Create teleop ROS2 Package ~$ros2 pkg create teleop 
 - Update ~/ranger_ws/src/teleop/*package.xml*
