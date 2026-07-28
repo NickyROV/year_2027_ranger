@@ -1,6 +1,6 @@
 /*
  * Arduino Mega Teleop Firmware - Phase 1
- * Reads:
+ * Reads 16 Analog channels (ADC0-ADC15) and 8 Digital channels (D22-D29).
  *   - ADC0-ADC15 (16 analog channels)
  *   - D22-D29 (8 digital channels with pull-ups)
  * Sends data as binary frame over Serial at 115200 baud
@@ -8,13 +8,20 @@
  * Pin Mapping:
  *   ADC0-ADC5  → /cmd_rov (ROV control)
  *   ADC6       → /led_brightness
- *   ADC7-ADC15 → /cmd_arm (Arm control)
+ *   ADC7-ADC14 → /cmd_arm (Arm control)
+ *   AD15       → /(reserved for future use)
  *   D22        → /depth_hold
  *   D23-D25    → /ai_instruct
  *   D26-D29    → (Reserved for future use)
  * 
  * Upload to: Arduino Mega 2560
  * Serial: USB (COM port on Windows, /dev/ttyUSB* on Linux)
+ * Data packages 36-byte binary frame:
+ * Header: 0xAA 0xBB (2 bytes)
+ * Analog Data: 16 values × 2 bytes each = 32 bytes
+ * Digital Data: 1 byte (8 bits packed)
+ * Footer: 0xCC (1 byte)
+ * Sends this frame over Serial at 115200 baud every 20ms (50Hz)
  */
 
 // ==================== CONFIGURATION ====================
@@ -70,8 +77,8 @@ void loop() {
   // === 2. Read 16 Analog Channels ===
   // ADC0-ADC5   → /cmd_rov (6 channels)
   // ADC6        → /led_brightness (1 channel)
-  // ADC7-ADC15  → /cmd_arm (8 channels)
-  // ADC16+      → Not connected (reserved)
+  // ADC7-ADC14  → /cmd_arm (8 channels)
+  // ADC15      → Not connected (reserved)
   
   for (int i = 0; i < NUM_ANALOG; i++) {
     // Read 10-bit analog value (0-1023)
