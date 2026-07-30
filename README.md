@@ -40,11 +40,12 @@
 ** Arduino Mega -> Pi 5 via Serial Port</br>
 ** Pi 5 publish corresponding Topics</br>
    
-* Phase 2 (Hardware Verification): Connect RDK X5 and PCA9685, write basic scripts, activate the servos and T200 thrusters one by one, and verify I2C communication stability.</br>
+* Phase 2 (Hardware Verification): Connect RDK X5 to sensors and PCA9685, verify I2C communication, activate the arm servos and T200 thrusters.</br>
 ** Burn the RDK X5 system image and confirm network and SSH connections.</br>
 ** Address confirmation of I2C devices with proper level shifter; PCA9685 (0x40), ICM-20948 (0x69), and MS5837 (0x76).</br>
 ** Python executable -> prepare 50Hz PWM output to PCA9685 to control all 8 T200 thruster Electronic Speed Controllers.</br>
 ** Verify DYP-L08 UART data reception (water depth/temperature).</br>
+** Output PWM to LED brightness control.</br>
 ** Output: Able to manually control a single actuator via command line; sensor data can be printed.</br>
 
 * Phase 3 (Watertightness and Power): Water tight compactment design, test 8 X T200's thruster performance, verify the ICM-20948 attitude readout.</br>
