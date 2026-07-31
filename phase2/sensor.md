@@ -26,8 +26,13 @@ Camera (visual odometry) with Barometer (MS5837) helping to determine the altitu
 
 3. Camera "Visual Odometry"</br> 
 
-4.  UART DYPL08 Ultra-Sonic distance sensor</br>
+4.  UART DYPL08 Ultra-Sonic distance sensor / Obstacle Avoidance sensor</br>
+DYP-L08 is hardware physically tunned for liquids with following characteristics;</br>
+(a) **Acoutic Impedance Match** Ultrasonic sensors internal transducer is mathematically tuned to push against the heavy, dense medium water.</br>
+When ultrasonic try to fire in the air, the difference in density between the solid face of the sensor and the thin air is so extreme that an "Acoustic Mismatch" occurs, resulting almost 100% of the sound energy bounces off the inside of the sensor's face and back into the casing.</br>
+(b) **Heavy-Duty Protective Hardware** Fully sealed, potted casing (IP68) to ensure survival being fully submerged. The thick, waterproofing surface requires the dense coupling of water to successfully transfer its vibration outward.</br>
+ 
 
-5. I2C PCA9685 16-channel PWM Controller</br>
+6. I2C PCA9685 16-channel PWM Controller</br>
 
-6. PWM Underwater LED</br>
+7. PWM Underwater LED</br>
