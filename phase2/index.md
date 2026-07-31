@@ -1,10 +1,20 @@
 # Data Acquisition #
 
-1. IMU ICM-20948 via I2C 0x68 with Mahony filter with outputs both the Quaternions for robotics and Euler Angles for visualization.</br>
+1. IMU ICM-20948 via I2C 0x68 (HIGH PRIORITY) with Mahony filter with outputs both the Quaternions for robotics and Euler Angles for visualization.</br>
 *Arduino Reference -> icm20948_mahony.cpp*</br>
 Possible issue with Magnetometer : Hard Iron and Soft Iron Distortion, Magnetic Declination.</br>
 The Fix : Run a Magnetometer Calibration Sketch, Calibration to Mahony Filter, Add Magnetic Declination to YAW.</br>
-As ICM20948 is consumer grade IMU, +/- 5 degree accuracy is expected.</br> 
+As ICM20948 is consumer grade IMU, +/- 5 degree accuracy is expected.</br>
+
+2. Underwater Pressure Sensor MS5837 via I2C 0x76 (MEDIUM PRIORITY)</br>
+
+3. 16 Channels PWM Controller PCA9685 via I2C 0x40 (LOW PRIORITY)</br> 
+
+4. MIPI-CSI Camera Connectors on separate I2C Bus (/dev/i2c-4) </br>
+
+5. TJC HMI Status display via UART </br>
+
+6. Ultra sound distance detector DYP-L08 via UART </br>
 
 ## Sensor Fusion ##
 Combining two sensors with opposite strengths and weaknesses:</br>
